@@ -1,141 +1,164 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Mahad Art Gallery</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Explore our curated collection of stunning paintings from renowned artists. Browse oil, watercolor, and abstract art pieces in our online gallery.">
     <meta name="keywords" content="art gallery, paintings, oil paintings, watercolor art, abstract paintings, fine art, artists">
-    <meta name="author" content="Your Name or Gallery Name">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
+    <meta name="author" content="Mahad Art Gallery">
+    <title>Mahad Art Gallery</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
-    <header>
-        <h1>Mahad Art Gallery</h1>
+    <header id="main-header">
+        <h1><i class="fa-solid fa-palette"></i> Mahad Art Gallery</h1>
+        <p class="tagline">Where Art Comes to Life</p>
     </header>
 
-    <nav style="background-color: #333; padding: 10px; text-align: center;">
-        <a href="#gallery" style="color: white; text-decoration: none; padding: 10px 15px; margin: 5px;">Gallery</a>
-        <a href="#about" style="color: white; text-decoration: none; padding: 10px 15px; margin: 5px;">About</a>
-        <a href="#feedback" style="color: white; text-decoration: none; padding: 10px 15px; margin: 5px;">Feedback</a>
+    <nav id="main-nav">
+        <ul class="nav-list">
+            <li><a href="#gallery" class="nav-link"><i class="fa-solid fa-images"></i> Gallery</a></li>
+            <li><a href="#about" class="nav-link"><i class="fa-solid fa-info-circle"></i> About</a></li>
+            <li><a href="#feedback" class="nav-link"><i class="fa-solid fa-comment"></i> Feedback</a></li>
+        </ul>
     </nav>
 
-    <!-- Gallery Section -->
-    <section id="gallery">
-        <h2>Welcome to Mahad Art Gallery</h2>
+    <main>
+        <section id="gallery" class="content-section">
+            <h2><span class="material-icons" style="vertical-align: middle;">collections</span> Welcome to Mahad Art Gallery</h2>
+            <p>Discover a world of creativity and expression at Mahad Art Gallery. We showcase exceptional artworks from talented artists around the globe.</p>
+            
+            <figure>
+                <img src="https://hamailartgalleries.com/images/logo.png" alt="Art Gallery Featured Image" class="featured-image">
+            </figure>
 
-        <p>Discover a world of creativity and expression at Mahad Art Gallery. We showcase</p>
-        <img src="https://hamailartgalleries.com/images/logo.png" alt="Art Gallery Image" width="600" height="400">
+            <h3>Featured Artworks</h3>
+            <div class="gallery-grid">
+                <article class="gallery-item">
+                    <img src="https://hamailartgalleries.com/uploads/artist/b29da4a550cbe7be72516ea408bd1426.jpg" alt="Oil Painting by Local Artist">
+                </article>
+                <article class="gallery-item">
+                    <img src="https://hamailartgalleries.com/uploads/artist/c8f8b55a66601a46a72f91d907a656e5.jpg" alt="Abstract Watercolor Art">
+                </article>
+                <article class="gallery-item">
+                    <img src="https://hamailartgalleries.com/uploads/artist/189449b1dce853efda09be6d23206efa.jpg" alt="Contemporary Art Piece">
+                </article>
+                <article class="gallery-item">
+                    <img src="https://hamailartgalleries.com/uploads/artist/4e21fc22dceaac62f3f82fed79f31dca.jpg" alt="Portrait Collection">
+                </article>
+                <article class="gallery-item">
+                    <img src="https://hamailartgalleries.com/uploads/artist/281b46093cd28259e8d95f7b0f9396d0.jpg" alt="Landscape Painting">
+                </article>
+                <article class="gallery-item">
+                    <img src="https://hamailartgalleries.com/uploads/artist/a168d811950364d4eabed58affef1fb2.jpg" alt="Modern Art Expression">
+                </article>
+            </div>
+        </section>
 
-        <table cellpadding="10" cellspacing="10">
-            <tr>
-                <td><img src="https://hamailartgalleries.com/uploads/artist/b29da4a550cbe7be72516ea408bd1426.jpg" alt="Painting 1" width="200" height="150"></td>
-                <td><img src="https://hamailartgalleries.com/uploads/artist/c8f8b55a66601a46a72f91d907a656e5.jpg" alt="Painting 2" width="200" height="150"></td>
-                <td><img src="https://hamailartgalleries.com/uploads/artist/189449b1dce853efda09be6d23206efa.jpg" alt="Painting 3" width="200" height="150"></td>
-            </tr>
-            <tr>
-                <td><img src="https://hamailartgalleries.com/uploads/artist/4e21fc22dceaac62f3f82fed79f31dca.jpg" alt="Painting 4" width="200" height="150"></td>
-                <td><img src="https://hamailartgalleries.com/uploads/artist/281b46093cd28259e8d95f7b0f9396d0.jpg" alt="Painting 5" width="200" height="150"></td>
-                <td><img src="https://hamailartgalleries.com/uploads/artist/a168d811950364d4eabed58affef1fb2.jpg" alt="Painting 6" width="200" height="150"></td>
-            </tr>
-        </table>
-    </section>
+        <hr class="divider">
 
-    <hr>
+        <section id="about" class="content-section">
+            <h2><i class="fa-solid fa-building-columns"></i> About Us</h2>
 
-    <!-- About Section -->
-    <section id="about">
-        <h2>About Us</h2>
+            <h3><i class="fa-solid fa-book-open"></i> Our Story</h3>
+            <p>Mahad Art Gallery was founded in 2010 with a passion for bringing exceptional art to the public. What started as a small exhibition space has grown into one of the most respected galleries in the region, showcasing works from both emerging and established artists.</p>
 
-        <h3>Our Story</h3>
-        <p>Mahad Art Gallery was founded in 2010 with a passion for bringing exceptional art to the public. What started as a small exhibition space has grown into one of the most respected galleries in the region, showcasing works from both emerging and established artists.</p>
+            <h3><i class="fa-solid fa-bullseye"></i> Our Mission</h3>
+            <p>We are dedicated to promoting artistic excellence and making fine art accessible to everyone. Our goal is to create a welcoming space where art lovers, collectors, and curious visitors can discover inspiring works that speak to the human experience.</p>
 
-        <h3>Our Mission</h3>
-        <p>We are dedicated to promoting artistic excellence and making fine art accessible to everyone. Our goal is to create a welcoming space where art lovers, collectors, and curious visitors can discover inspiring works that speak to the human experience.</p>
+            <h3><i class="fa-solid fa-star"></i> What We Offer</h3>
+            <ul>
+                <li>Curated collections of oil paintings, watercolors, and abstract art</li>
+                <li>Monthly exhibitions featuring local and international artists</li>
+                <li>Art workshops and educational programs</li>
+                <li>Private viewings and consultation services</li>
+                <li>Art acquisition and investment guidance</li>
+            </ul>
 
-        <h3>What We Offer</h3>
-        <ul>
-            <li>Curated collections of oil paintings, watercolors, and abstract art</li>
-            <li>Monthly exhibitions featuring local and international artists</li>
-            <li>Art workshops and educational programs</li>
-            <li>Private viewings and consultation services</li>
-            <li>Art acquisition and investment guidance</li>
-        </ul>
+            <h3><i class="fa-solid fa-users"></i> Our Team</h3>
+            <div class="team-member">
+                <strong>Mahad Khan</strong> - Founder & Director<br>
+                With over 20 years of experience in the art world, Mahad brings expertise and passion to every exhibition.
+            </div>
 
-        <h3>Our Team</h3>
-        <p><strong>Mahad Khan</strong> - Founder & Director<br>
-        With over 20 years of experience in the art world, Mahad brings expertise and passion to every exhibition.</p>
+            <h3><i class="fa-solid fa-clock"></i> Gallery Hours</h3>
+            <table class="hours-table">
+                <tr>
+                    <td><i class="fa-regular fa-calendar-days"></i> Monday - Friday</td>
+                    <td>10:00 AM - 6:00 PM</td>
+                </tr>
+                <tr>
+                    <td><i class="fa-regular fa-calendar-days"></i> Saturday</td>
+                    <td>11:00 AM - 5:00 PM</td>
+                </tr>
+                <tr>
+                    <td><i class="fa-regular fa-calendar-days"></i> Sunday</td>
+                    <td>Closed</td>
+                </tr>
+            </table>
 
-        <p><strong>Sarah Ahmed</strong> - Curator<br>
-        Sarah oversees our collection and works closely with artists to bring unique exhibitions to life.</p>
+            <h3><i class="fa-solid fa-location-dot"></i> Visit Us</h3>
+            <address class="gallery-address">
+                <i class="fa-solid fa-building"></i> Mahad Art Gallery<br>
+                <i class="fa-solid fa-road"></i> 123 Art Street, Creative District<br>
+                <i class="fa-solid fa-city"></i> Lahore, Pakistan<br>
+                <i class="fa-solid fa-phone"></i> +92 300 1234567<br>
+                <i class="fa-solid fa-envelope"></i> info@mahadartgallery.com
+            </address>
+        </section>
 
-        <p><strong>Ali Hassan</strong> - Gallery Manager<br>
-        Ali ensures smooth operations and provides exceptional service to all visitors.</p>
+        <hr class="divider">
 
-        <h3>Gallery Hours</h3>
-        <table border="1" cellpadding="10">
-            <tr>
-                <td>Monday - Friday</td>
-                <td>10:00 AM - 6:00 PM</td>
-            </tr>
-            <tr>
-                <td>Saturday</td>
-                <td>11:00 AM - 5:00 PM</td>
-            </tr>
-            <tr>
-                <td>Sunday</td>
-                <td>Closed</td>
-            </tr>
-        </table>
+        <section id="feedback" class="content-section">
+            <h2><i class="fa-solid fa-comments"></i> We Value Your Feedback</h2>
+            <p>Please share your thoughts and experiences with us. Your feedback helps us improve our gallery and services.</p>
 
-        <h3>Visit Us</h3>
-        <address>
-            Mahad Art Gallery<br>
-            123 Art Street, Creative District<br>
-            Lahore, Pakistan<br>
-            Phone: +92 300 1234567<br>
-            Email: info@mahadartgallery.com
-        </address>
-    </section>
+            <form action="#" method="post" id="feedback-form">
+                <div class="form-group">
+                    <label for="name"><i class="fa-solid fa-user"></i> Full Name:</label>
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Enter your full name" required>
+                </div>
 
-    <hr>
+                <div class="form-group">
+                    <label for="email"><i class="fa-solid fa-at"></i> Email Address:</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email address" required>
+                </div>
 
-    <!-- Feedback Section -->
-    <section id="feedback">
-        <h2>We Value Your Feedback</h2>
-        <p>Please share your thoughts and experiences with us. Your feedback helps us improve our gallery and services.</p>
+                <div class="form-group">
+                    <label for="contact"><i class="fa-solid fa-mobile-screen"></i> Contact Number:</label>
+                    <input type="tel" id="contact" name="contact" class="form-control" placeholder="Enter your contact number" required>
+                </div>
 
-        <form action="#" method="post">
-            <p>
-                <label for="name">Full Name:</label><br>
-                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
-            </p>
+                <div class="form-group">
+                    <label for="feedback-text"><i class="fa-solid fa-pen"></i> Your Feedback:</label>
+                    <textarea id="feedback-text" name="feedback" class="form-control" rows="6" placeholder="Write your feedback here..." required></textarea>
+                </div>
 
-            <p>
-                <label for="email">Email Address:</label><br>
-                <input type="email" id="email" name="email" placeholder="Enter your email address" required>
-            </p>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Submit Feedback</button>
+                    <button type="reset" class="btn btn-secondary"><i class="fa-solid fa-eraser"></i> Clear Form</button>
+                </div>
+            </form>
+        </section>
+    </main>
 
-            <p>
-                <label for="contact">Contact Number:</label><br>
-                <input type="tel" id="contact" name="contact" placeholder="Enter your contact number" required>
-            </p>
-
-            <p>
-                <label for="feedback-text">Your Feedback:</label><br>
-                <textarea id="feedback-text" name="feedback" rows="8" cols="50" placeholder="Write your feedback here..." required></textarea>
-            </p>
-
-            <p>
-                <input type="submit" value="Submit Feedback">
-                <input type="reset" value="Clear Form">
-            </p>
-        </form>
-    </section>
-
-    <hr>
-
-    <footer>
-        <p>© 2026 Mahad Art Gallery. All Rights Reserved.</p>
+    <footer id="main-footer">
+        <div class="footer-links">
+            <a href="#gallery">Gallery</a>
+            <a href="#about">About</a>
+            <a href="#feedback">Contact</a>
+        </div>
+        
+        <div class="social-icons">
+            <a href="#" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" title="Twitter"><i class="fa-brands fa-twitter"></i></a>
+            <a href="#" title="Pinterest"><i class="fa-brands fa-pinterest"></i></a>
+        </div>
+        
+        <p>&copy; 2026 Mahad Art Gallery. All Rights Reserved.</p>
         <p>Developed by: Mahad Technologies</p>
     </footer>
 </body>
