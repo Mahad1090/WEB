@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Page Static Website</title>
+</head>
+
+<body style="
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color:#f2f2f2;
+    color:#333;
+">
+
+    <!-- Header -->
+    <header style="
+        background-color:#1e90ff;
+        color:white;
+        padding:20px;
+        text-align:center;
+    ">
+        <h1 style="margin:0;">My Simple Website</h1>
+        <p style="margin-top:5px;">A one page static website using inline CSS</p>
+    </header>
+
+    <!-- Navigation -->
+    <nav style="
+        background-color:#222;
+        padding:10px;
+        text-align:center;
+    ">
+        <a href="#home" style="
+            color:white;
+            margin:0 15px;
+            text-decoration:none;
+            font-weight:bold;
+        "
+        onmouseover="this.style.color='#1e90ff'"
+        onmouseout="this.style.color='white'">
+            Home
+        </a>
+
+        <a href="#about" style="
+            color:white;
+            margin:0 15px;
+            text-decoration:none;
+            font-weight:bold;
+        "
+        onmouseover="this.style.color='#1e90ff'"
+        onmouseout="this.style.color='white'">
+            About
+        </a>
+
+        <a href="#contact" style="
+            color:white;
+            margin:0 15px;
+            text-decoration:none;
+            font-weight:bold;
+        "
+        onmouseover="this.style.color='#1e90ff'"
+        onmouseout="this.style.color='white'">
+            Contact
+        </a>
+    </nav>
+
+    <!-- Main Content -->
+    <main style="padding:20px;">
+
+        <!-- Section -->
+        <section id="home" style="
+            background-color:white;
+            padding:20px;
+            margin-bottom:20px;
+            border-radius:8px;
+        ">
+            <h2>Welcome</h2>
+            <p>
+                This is a simple one page static website created using HTML5 and inline CSS.
+                The purpose of this project is to practice basic layout, styling, and structure.
+            </p>
+        </section>
+
+        <!-- Article -->
+        <article id="about" style="
+            background-color:white;
+            padding:20px;
+            margin-bottom:20px;
+            border-radius:8px;
+        ">
+            <h2>About This Project</h2>
+            <p>
+                This website uses semantic HTML elements such as header, nav, section, article,
+                and footer. Inline CSS is used to style colors, fonts, spacing, and layout.
+            </p>
+            <p>
+                The design is kept simple and clean so it looks like a real student assignment.
+            </p>
+        </article>
+
+        <!-- Another Section -->
+        <section id="contact" style="
+            background-color:white;
+            padding:20px;
+            border-radius:8px;
+        ">
+            <h2>Contact</h2>
+            <p>
+                This is just a static page, so the contact section is for demonstration only.
+            </p>
+            <p>
+                Email: example@email.com
+            </p>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer style="
+        background-color:#222;
+        color:white;
+        text-align:center;
+        padding:15px;
+        margin-top:20px;
+    ">
+        <p style="margin:0;">
+            © 2026 | One Page Static Website | Student Practice Project
+        </p>
+    </footer>
+
+</body>
+</html>
