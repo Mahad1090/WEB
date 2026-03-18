@@ -1,0 +1,500 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #f0f3fb;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+
+/* Main Container Layout */
+
+.container {
+    display: flex;
+    gap: 24px;
+    width: 100%;
+    max-width: 1100px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    padding: 24px;
+    min-height: 560px;
+}
+
+
+/* Editor Panel (Left)*/
+
+.editor-panel {
+    width: 300px;
+    min-width: 260px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+
+/* --- Section Titles --- */
+
+.section-title {
+    display: block;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 10px;
+    color: #222;
+    letter-spacing: 0.3px;
+}
+
+
+/* Filter Buttons */
+
+.filter-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.filter-btn {
+    padding: 8px 4px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+    color: #555;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.filter-btn:hover {
+    background: #f5f6fa;
+    border-color: #bbb;
+}
+
+/* Active filter button — highlighted in blue/indigo */
+.filter-btn.active {
+    background: #5372F0;
+    color: #fff;
+    border-color: #5372F0;
+}
+
+
+/* Slider Wrapper */
+
+.slider-wrapper {
+    margin-top: 2px;
+}
+
+.slider-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.slider-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.slider-value {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+}
+
+/* --- Custom Range Slider --- */
+
+input[type="range"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: #ddd;
+    outline: none;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+/* Webkit (Chrome, Edge, Safari) thumb */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #5372F0;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 4px rgba(83, 114, 240, 0.35);
+    cursor: grab;
+    transition: box-shadow 0.15s;
+}
+
+input[type="range"]::-webkit-slider-thumb:active {
+    cursor: grabbing;
+    box-shadow: 0 1px 8px rgba(83, 114, 240, 0.55);
+}
+
+/* Firefox thumb */
+input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #5372F0;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 4px rgba(83, 114, 240, 0.35);
+    cursor: grab;
+}
+
+input[type="range"]::-moz-range-thumb:active {
+    cursor: grabbing;
+}
+
+/* Firefox track */
+input[type="range"]::-moz-range-track {
+    height: 6px;
+    border-radius: 3px;
+    background: transparent;
+    border: none;
+}
+
+
+/*  Rotate & Flip Section */
+
+.rotate-section {
+    border-top: 1px solid #eee;
+    padding-top: 14px;
+}
+
+.rotate-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.rotate-btn {
+    flex: 1;
+    padding: 8px 0;
+    font-size: 18px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rotate-btn:hover {
+    background: #f5f6fa;
+    border-color: #bbb;
+}
+
+.rotate-btn:active {
+    background: #e8edff;
+    border-color: #5372F0;
+    color: #5372F0;
+}
+
+
+/*Reset Filters Button */
+
+.reset-btn {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #fff;
+    color: #555;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+    text-transform: uppercase;
+}
+
+.reset-btn:hover {
+    background: #f5f6fa;
+    border-color: #aaa;
+    color: #333;
+}
+
+
+/* History Panel */
+
+.history-section {
+    border-top: 1px solid #eee;
+    padding-top: 14px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.history-controls {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.history-btn {
+    flex: 1;
+    padding: 7px 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+    color: #555;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.history-btn:hover:not(:disabled) {
+    background: #f5f6fa;
+    border-color: #aaa;
+}
+
+.history-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Scrollable History List */
+.history-list {
+    flex: 1;
+    max-height: 180px;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 4px;
+}
+
+.history-item {
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #666;
+    transition: background 0.15s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.history-item:hover {
+    background: #f5f6fa;
+}
+
+/* Highlighted current history state */
+.history-item.active {
+    background: #e8edff;
+    color: #5372F0;
+    font-weight: 600;
+}
+
+/* Custom scrollbar for history list */
+.history-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.history-list::-webkit-scrollbar-track {
+    background: #f9f9f9;
+    border-radius: 3px;
+}
+
+.history-list::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+.history-list::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}
+
+
+/* Preview Panel */
+
+.preview-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+}
+
+/* Image Display Container */
+.image-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fc;
+    border: 2px dashed #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    min-height: 350px;
+}
+
+/* When an image is loaded — remove dashed border */
+.image-container.has-image {
+    border: none;
+    background: #f0f0f0;
+}
+
+/* Preview Image */
+#preview-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: none;
+    transition: filter 0.15s ease, transform 0.15s ease;
+}
+
+/* Placeholder Text */
+.placeholder {
+    font-size: 15px;
+    color: #aaa;
+    text-align: center;
+    padding: 20px;
+    user-select: none;
+}
+
+
+/* Action Buttons  */
+
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.action-btn {
+    padding: 11px 22px;
+    border: none;
+    border-radius: 6px;
+    background: #45474b;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    outline: none;
+    text-transform: uppercase;
+}
+
+.action-btn:hover {
+    background: #333;
+}
+
+.action-btn:active {
+    background: #222;
+}
+
+
+/* Responsive Design*/
+
+/* Tablet breakpoint */
+@media (max-width: 900px) {
+    body {
+        padding: 12px;
+    }
+
+    .container {
+        flex-direction: column;
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .editor-panel {
+        width: 100%;
+        min-width: unset;
+        order: 2;
+    }
+
+    .preview-panel {
+        order: 1;
+    }
+
+    .image-container {
+        min-height: 300px;
+    }
+
+    .history-list {
+        max-height: 150px;
+    }
+}
+
+/* Mobile breakpoint */
+@media (max-width: 520px) {
+    body {
+        padding: 8px;
+    }
+
+    .container {
+        padding: 12px;
+        gap: 12px;
+        border-radius: 8px;
+    }
+
+    .filter-buttons {
+        gap: 6px;
+    }
+
+    .filter-btn {
+        padding: 7px 2px;
+        font-size: 12px;
+    }
+
+    .rotate-buttons {
+        gap: 6px;
+    }
+
+    .rotate-btn {
+        font-size: 16px;
+        padding: 7px 0;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .action-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .image-container {
+        min-height: 240px;
+    }
+
+    .slider-label,
+    .slider-value {
+        font-size: 13px;
+    }
+
+    .history-btn {
+        font-size: 11px;
+        padding: 6px 6px;
+    }
+}
