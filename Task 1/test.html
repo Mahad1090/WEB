@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    	<title> Div Random Movement</title>
+    </head>
+    
+<body>
+	<button onclick = "start()">Start</button>
+    <button onclick = "faster()">Faster</button>
+    <button onclick = "slower()">Slower</button>
+    <br>
+
+<div id="outerdiv" style="width:400px;height:300px;border:3px solid black;position:relative;">
+    <div id="innerdiv" style="width:50px;height:50px;background-color:red;position:absolute;top:0px;left:0px;"></div>
+</div>
+
+<script>
+	let speed = 500;
+    let interval = null;
+    function start() {
+        if (interval) 
+            return;
+        interval = setInterval(moveDiv, speed);
+    }
+
+    function moveDiv() {
+        const outerDiv = document.getElementById("outerdiv");
+        const innerDiv = document.getElementById("innerdiv");
+        
+        const maxX = outerDiv.clientWidth - innerDiv.clientWidth;
+        const maxY = outerDiv.clientHeight - innerDiv.clientHeight;
+        
+        const randomX = Math.floor(Math.random() * (maxX + 1));
+        const randomY = Math.floor(Math.random() * (maxY + 1));
+        
+        innerDiv.style.left = randomX + "px";
+        innerDiv.style.top = randomY + "px";
+    }
+
+    function faster() {
+        if (speed > 100) {
+            speed -= 100;
+            resetInterval();
+        }
+    }
+
+    function slower() {
+        speed += 100;
+        resetInterval();
+    }
+
+    function resetInterval() {
+        if (interval) {
+            clearInterval(interval);
+            interval = setInterval(moveDiv, speed);
+        }
+    }
+
+    
+ </script>
+</html>
