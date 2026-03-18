@@ -1,0 +1,79 @@
+# Node.js
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build outputs
+dist/
+build/
+out/
+*.tsbuildinfo
+.next/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.env.example
+.nvmrc
+
+# Logs
+logs/
+*.log
+
+# OS & System
+Thumbs.db
+.DS_Store
+*.bak
+*.tmp
+
+# Vite
+.vite/
+.cache/
+dist-ssr/
+
+# Testing
+.nyc_output/
+coverage/
+.jest_cache/
+
+# Build cache
+.turbo/
+
+# Local development
+.eslintcache
+.prettierignore
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+mongodb/
+data/
+
+# Server & Task 3 specific
+uploads/
+tmp/
+temp/
+
+# Project folders (temporary/development setups)
+ReactSetup/
+
+# Misc
+.cache
+.hydrogen/
