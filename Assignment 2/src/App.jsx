@@ -2,33 +2,22 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import CricketGround from './components/CricketGround';
 import Scoreboard from './components/Scoreboard';
-import BattingStyleSelector from './components/BattingStyleSelector';
 import PowerBar from './components/PowerBar';
 import GameStatus from './components/GameStatus';
 
 /**
- * Main App Component
- * Manages overall game state and logic
+ * Main App Component - Single Page Cricket Game
+ * Features: Choose batting style before each ball, dynamic power bar updates
  * 
- * Props: None
- * State:
- *   - runs: Total runs scored
- *   - wickets: Wickets lost
- *   - balls: Balls played
- *   - overs: Complete overs (fixed at 2)
- *   - battingStyle: Current batting style (Aggressive/Defensive)
- *   - gameActive: Game in progress flag
- *   - sliderPosition: Current power bar slider position (0-1)
- *   - lastResult: Result of last shot
- *   - history: Array of shot results
+ * Game Flow:
+ * 1. Show style selector modal → 2. Show power bar → 3. Play animation → 4. Update results → Repeat
  */
 export default function App() {
-  // Game state management
+  // Game state
   const [runs, setRuns] = useState(0);
   const [wickets, setWickets] = useState(0);
   const [balls, setBalls] = useState(0);
   const [battingStyle, setBattingStyle] = useState('Aggressive');
-  const [gameActive, setGameActive] = useState(false);
   const [sliderPosition, setSliderPosition] = useState(0);
   const [lastResult, setLastResult] = useState(null);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -39,8 +28,9 @@ export default function App() {
   const MAX_WICKETS = 2;
   const OVERS = Math.floor(balls / 6);
   const REMAINING_BALLS = balls % 6;
+  const gameOver = balls >= TOTAL_BALLS || wickets >= MAX_WICKETS;
 
-  // Probability distributions for each batting style
+  // Probability distributions
   const probabilities = {
     Aggressive: {
       wicket: 0.40,
@@ -62,54 +52,52 @@ export default function App() {
     },
   };
 
-  // Commentary statements for different outcomes
+  // Commentary
   const commentaryLines = {
     wicket: [
-      'Oh no! That\'s a wicket! The batsman is out!',
-      'Bold attempt but it didn\'t come off. Wicket lost!',
-      'The bowler strikes! Another wicket down!',
+      'Oh no! That\'s a wicket!',
+      'Bold attempt but it didn\'t come off. Wicket!',
+      'The bowler strikes!',
     ],
     zero: [
-      'A dot ball! No runs scored.',
+      'A dot ball! No runs.',
       'Blocked solidly but no runs.',
-      'Good defense, but no scoring opportunity.',
+      'Good defense, but no runs.',
     ],
     one: [
-      'A single run! Quick running between wickets.',
-      'One run scored. Good batting.',
+      'A single run!',
+      'One run scored.',
       'Nicely picked single.',
     ],
     two: [
       'Two runs! Excellent running.',
-      'Good placement for an easy two.',
-      'A well-coordinated effort for two runs.',
+      'Good placement for two.',
+      'A well-coordinated two runs.',
     ],
     three: [
-      'Three runs! Fantastic batting!',
-      'A boundary-shy hit that brings three.',
+      'Three runs! Fantastic!',
+      'A boundary-shy hit for three.',
       'Great execution for three.',
     ],
     four: [
-      'That\'s a FOUR! What a shot!',
-      'FOUR! The ball races to the boundary!',
-      'Brilliant stroke! Four runs to the boundary!',
+      'That\'s a FOUR!',
+      'FOUR to the boundary!',
+      'Brilliant stroke! FOUR!',
     ],
     six: [
-      'SIX! Over the boundary! What a massive hit!',
+      'SIX! Over the boundary!',
       'SIXED! Out of the ground!',
-      'Pure power! Six runs! Excellent!',
+      'Pure power! SIX!',
     ],
   };
 
   /**
-   * Calculate outcome based on slider position and probability distribution
-   * The slider position (0-1) determines which probability segment it falls into
+   * Calculate outcome based on slider position
    */
   const getOutcomeFromSliderPosition = (position) => {
     const probs = probabilities[battingStyle];
     let cumulative = 0;
 
-    // Check each outcome in order
     if (position < cumulative + probs.wicket) return { outcome: 'wicket', runs: 0 };
     cumulative += probs.wicket;
 
@@ -134,24 +122,31 @@ export default function App() {
   };
 
   /**
-   * Handle when user clicks to play the shot
-   * Determines outcome based on slider position and updates game state
+   * Handle batting style selection - this triggers before each ball
+   */
+  const selectBattingStyle = (style) => {
+    setBattingStyle(style);
+    setShowStyleSelector(false);
+    setSliderPosition(0);
+  };
+
+  /**
+   * Handle play shot - get outcome from slider position
    */
   const handlePlayShot = () => {
-    if (!gameActive || isAnimating) return;
+    if (gameOver || isAnimating) return;
 
     setIsAnimating(true);
-
-    // Get outcome based on current slider position
     const result = getOutcomeFromSliderPosition(sliderPosition);
 
-    // Add commentary based on result
     const commentaryIndex = Math.floor(
       Math.random() * commentaryLines[result.outcome].length
     );
     setCommentary(commentaryLines[result.outcome][commentaryIndex]);
 
-    // Update game state based on outcome
+    // Animation duration: 2000ms (50 frames * 40ms)
+    // Phase 1: Bowling animation (30 frames = 1200ms)
+    // Phase 2: Batting animation (20 frames = 800ms)
     setTimeout(() => {
       if (result.outcome === 'wicket') {
         setWickets((w) => w + 1);
@@ -162,119 +157,86 @@ export default function App() {
       setBalls((b) => b + 1);
       setLastResult(result.outcome);
       setIsAnimating(false);
-    }, 800);
+    }, 2000);
   };
 
   /**
-   * Start a new game
-   */
-  const startGame = (style) => {
-    setBattingStyle(style);
-    setGameActive(true);
-    setSliderPosition(0);
-    setCommentary('');
-    setLastResult(null);
-  };
-
-  /**
-   * Restart the game - reset all stats
+   * Restart game
    */
   const restartGame = () => {
     setRuns(0);
     setWickets(0);
     setBalls(0);
     setBattingStyle('Aggressive');
-    setGameActive(false);
     setSliderPosition(0);
     setLastResult(null);
     setCommentary('');
   };
 
   /**
-   * Animate the slider continuously
+   * Toggle batting style
    */
-  useEffect(() => {
-    if (!gameActive || isAnimating) return;
-
-    const interval = setInterval(() => {
-      setSliderPosition((pos) => {
-        const newPos = (pos + 0.01) % 1; // Loop slider from 0 to 1
-        return newPos;
-      });
-    }, 30); // Update every 30ms for smooth animation
-
-    return () => clearInterval(interval);
-  }, [gameActive, isAnimating]);
+  const toggleBattingStyle = () => {
+    setBattingStyle((style) => (style === 'Aggressive' ? 'Defensive' : 'Aggressive'));
+    setSliderPosition(0); // Reset slider when style changes
+  };
 
   /**
-   * Check if game should end
+   * Animate slider
    */
   useEffect(() => {
-    if (gameActive && (balls >= TOTAL_BALLS || wickets >= MAX_WICKETS)) {
-      setGameActive(false);
-    }
-  }, [balls, wickets, gameActive]);
+    if (isAnimating || gameOver) return;
 
-  // Game not started yet
-  if (!gameActive) {
-    return (
-      <div className="app-container">
-        <div className="app-wrapper">
-          <h1 className="game-title">🏏 2D Cricket Batting Game 🏏</h1>
-          <div className="intro-section">
-            <p className="intro-text">
-              Welcome to the Cricket Batting Game! Test your skills against the bowler.
-            </p>
-            <BattingStyleSelector onSelectStyle={startGame} />
-          </div>
+    const interval = setInterval(() => {
+      setSliderPosition((pos) => (pos + 0.01) % 1);
+    }, 30);
 
-          {balls > 0 && (
-            <div className="final-stats">
-              <h2>Game Summary</h2>
-              <div className="stats-grid">
-                <div className="stat-card">
-                  <span className="stat-label">Total Runs</span>
-                  <span className="stat-value">{runs}</span>
-                </div>
-                <div className="stat-card">
-                  <span className="stat-label">Wickets</span>
-                  <span className="stat-value">{wickets}/2</span>
-                </div>
-                <div className="stat-card">
-                  <span className="stat-label">Balls Faced</span>
-                  <span className="stat-value">{balls}/12</span>
-                </div>
-              </div>
-              <button className="restart-btn" onClick={restartGame}>
-                Play Again
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  }
+    return () => clearInterval(interval);
+  }, [isAnimating, gameOver]);
 
-  // Game in progress
   return (
     <div className="app-container game-active">
       <header className="app-header">
-        <h1 className="game-title">🏏 Cricket Batting Game</h1>
+        <h1 className="game-title">Cricket Batting Game</h1>
       </header>
 
       <div className="game-layout">
-        {/* Left Panel: Cricket Ground */}
+        {/* Left Panel: Cricket Ground and Controls */}
         <div className="left-panel">
           <CricketGround
             isAnimating={isAnimating}
             lastResult={lastResult}
             battingStyle={battingStyle}
           />
+
+          <PowerBar
+            sliderPosition={sliderPosition}
+            battingStyle={battingStyle}
+            probabilities={probabilities[battingStyle]}
+            onPlayShot={handlePlayShot}
+            isDisabled={isAnimating}
+          />
+
+          {/* Game Controls */}
+          <div className="game-controls">
+            <button
+              className="play-btn"
+              onClick={handlePlayShot}
+              disabled={isAnimating || gameOver}
+            >
+              {isAnimating ? 'Playing...' : 'PLAY SHOT'}
+            </button>
+
+            {gameOver && (
+              <button className="restart-btn" onClick={restartGame}>
+                New Game
+              </button>
+            )}
+          </div>
         </div>
 
-        {/* Right Panel: Scoreboard and Controls */}
+        {/* Right Panel: Scoreboard and Game Status */}
         <div className="right-panel">
-          {/* Scoreboard */}
           <Scoreboard
             runs={runs}
             wickets={wickets}
@@ -284,69 +246,39 @@ export default function App() {
             totalBalls={TOTAL_BALLS}
           />
 
-          {/* Game Status */}
           <GameStatus lastResult={lastResult} commentary={commentary} />
 
-          {/* Power Bar */}
-          <PowerBar
-            sliderPosition={sliderPosition}
-            battingStyle={battingStyle}
-            probabilities={probabilities[battingStyle]}
-            onPlayShot={handlePlayShot}
-            isDisabled={isAnimating}
-          />
-
-          {/* Game Info */}
-          <div className="game-info">
-            <p>Remaining: {TOTAL_BALLS - balls} balls</p>
+          {/* Batting Style Toggle */}
+          <div className="batting-style-toggle">
             <button
-              className="play-btn"
-              onClick={handlePlayShot}
+              className={`toggle-btn aggressive-btn ${battingStyle === 'Aggressive' ? 'active' : ''}`}
+              onClick={toggleBattingStyle}
               disabled={isAnimating}
             >
-              {isAnimating ? 'Playing...' : 'PLAY SHOT'}
+              <span className="toggle-icon">⚡</span>
+              <span className="toggle-label">Aggressive</span>
+            </button>
+            <button
+              className={`toggle-btn defensive-btn ${battingStyle === 'Defensive' ? 'active' : ''}`}
+              onClick={toggleBattingStyle}
+              disabled={isAnimating}
+            >
+              <span className="toggle-icon">🛡️</span>
+              <span className="toggle-label">Defensive</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Game Over Screen */}
-      {balls >= TOTAL_BALLS && (
+      {/* Game Over Overlay */}
+      {gameOver && (
         <div className="game-over-overlay">
           <div className="game-over-card">
-            <h2>Match Completed!</h2>
+            <h2>{balls >= TOTAL_BALLS ? 'Match Complete!' : 'All Out!'}</h2>
             <div className="final-results">
-              <p>
-                <strong>Final Score:</strong> {runs} runs
-              </p>
-              <p>
-                <strong>Wickets Lost:</strong> {wickets}/2
-              </p>
-              <p>
-                <strong>Overs Faced:</strong> {OVERS}.{REMAINING_BALLS}
-              </p>
-            </div>
-            <button className="restart-btn" onClick={restartGame}>
-              Play Again
-            </button>
-          </div>
-        </div>
-      )}
-
-      {wickets >= MAX_WICKETS && balls < TOTAL_BALLS && (
-        <div className="game-over-overlay">
-          <div className="game-over-card">
-            <h2>All Out!</h2>
-            <div className="final-results">
-              <p>
-                <strong>Final Score:</strong> {runs} runs
-              </p>
-              <p>
-                <strong>Balls Faced:</strong> {balls}/12
-              </p>
-              <p>
-                <strong>Overs:</strong> {OVERS}.{REMAINING_BALLS}
-              </p>
+              <p><strong>Final Score:</strong> {runs} runs</p>
+              <p><strong>Wickets:</strong> {wickets}/{MAX_WICKETS}</p>
+              <p><strong>Balls Faced:</strong> {balls}/12</p>
             </div>
             <button className="restart-btn" onClick={restartGame}>
               Play Again

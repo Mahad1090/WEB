@@ -8,7 +8,7 @@ import './PowerBar.css';
  *
  * Props:
  *   - sliderPosition: Current position of slider (0-1)
- *   - battingStyle: Current batting style
+ *   - battingStyle: Current batting style (Aggressive/Defensive)
  *   - probabilities: Probability distribution object
  *   - onPlayShot: Callback when play shot is clicked
  *   - isDisabled: Whether controls are disabled
@@ -36,13 +36,13 @@ export default function PowerBar({
   let start = 0;
 
   const outcomes = [
-    { key: 'wicket', label: 'Wicket', emoji: '💔' },
-    { key: 'zero', label: 'Zero', emoji: '⭕' },
-    { key: 'one', label: '1 Run', emoji: '1️⃣' },
-    { key: 'two', label: '2 Runs', emoji: '2️⃣' },
-    { key: 'three', label: '3 Runs', emoji: '3️⃣' },
-    { key: 'four', label: '4 Runs', emoji: '4️⃣' },
-    { key: 'six', label: '6 Runs', emoji: '6️⃣' },
+    { key: 'wicket', label: 'W' },
+    { key: 'zero', label: '0' },
+    { key: 'one', label: '1' },
+    { key: 'two', label: '2' },
+    { key: 'three', label: '3' },
+    { key: 'four', label: '4' },
+    { key: 'six', label: '6' },
   ];
 
   outcomes.forEach((outcome) => {
@@ -56,9 +56,26 @@ export default function PowerBar({
     start += width;
   });
 
+  // Calculate cumulative positions for scale marks (dynamically based on probabilities)
+  let cumulative = 0;
+  const allScaleMarks = [{ value: 0, cumulative: 0 }];
+  
+  outcomes.forEach((outcome) => {
+    cumulative += probabilities[outcome.key];
+    allScaleMarks.push({
+      value: parseFloat(cumulative.toFixed(2)),
+      cumulative: cumulative * 100,
+    });
+  });
+
+  // For defensive style, filter to show only 0, values < 0.9, and 1
+  const scaleMarks = battingStyle === 'Defensive'
+    ? allScaleMarks.filter(mark => mark.value < 0.9 || mark.value === 1)
+    : allScaleMarks;
+
   return (
     <div className="power-bar-container">
-      <h3>⚡ Probability-Based Power Bar</h3>
+      <h3>Power Bar</h3>
 
       {/* Power Bar */}
       <div className="power-bar-wrapper">
@@ -73,10 +90,9 @@ export default function PowerBar({
                   width: `${segment.width}%`,
                   backgroundColor: segment.color,
                 }}
-                title={`${segment.label}: ${(segment.width).toFixed(1)}%`}
+                title={`${segment.label}`}
               >
-                <span className="segment-label">{segment.emoji}</span>
-                <span className="segment-percent">{(segment.width).toFixed(1)}%</span>
+                <span className="segment-label">{segment.label}</span>
               </div>
             ))}
           </div>
@@ -95,48 +111,23 @@ export default function PowerBar({
 
         {/* Numerical scale */}
         <div className="scale-numbers">
-          <span className="scale-mark">0</span>
-          <span className="scale-mark">0.40</span>
-          <span className="scale-mark">0.50</span>
-          <span className="scale-mark">0.60</span>
-          <span className="scale-mark">0.70</span>
-          <span className="scale-mark">0.75</span>
-          <span className="scale-mark">0.85</span>
-          <span className="scale-mark">1.00</span>
-        </div>
-
-        {/* Current Position Indicator */}
-        <div className="position-indicator">
-          <span className="position-text">
-            Slider Position: {(sliderPosition * 100).toFixed(1)}%
-          </span>
-        </div>
-      </div>
-
-      {/* Legend */}
-      <div className="legend">
-        <div className="legend-title">Probability Mappings:</div>
-        <div className="legend-grid">
-          {segments.map((segment) => (
-            <div key={segment.key} className="legend-item">
-              <div
-                className="legend-color"
-                style={{ backgroundColor: segment.color }}
-              ></div>
-              <span className="legend-label">
-                {segment.emoji} {segment.label}
-              </span>
-            </div>
+          {scaleMarks.map((mark) => (
+            <span
+              key={mark.value}
+              className="scale-mark"
+              style={{ left: `${mark.cumulative}%` }}
+            >
+              {mark.value}
+            </span>
           ))}
         </div>
-      </div>
 
-      {/* Explanation */}
-      <div className="bar-explanation">
-        <p>
-          <strong>How it works:</strong> The slider continuously moves across the power bar from left to right. 
-          Click "PLAY SHOT" to score based on which colored segment the slider stops in!
-        </p>
+        {/* Batting Style Indicator */}
+        <div className="batting-style-indicator">
+          <span className={`style-badge ${battingStyle.toLowerCase()}`}>
+            {battingStyle} Selected
+          </span>
+        </div>
       </div>
     </div>
   );

@@ -12,37 +12,79 @@ import './CricketGround.css';
  */
 export default function CricketGround({ isAnimating, lastResult, battingStyle }) {
   const canvasRef = useRef(null);
-  const [ballPosition, setBallPosition] = useState({ x: 150, y: 150 });
+  const [ballPosition, setBallPosition] = useState({ x: 45, y: 150 });
   const [batRotation, setBatRotation] = useState(0);
+  const [bowlerArmRotation, setBowlerArmRotation] = useState(0);
 
-  // Animation frame for bowling
+  // Animation frame for bowling and batting
   useEffect(() => {
     if (!isAnimating) {
-      setBallPosition({ x: 150, y: 150 });
+      setBallPosition({ x: 45, y: 150 });
       setBatRotation(0);
+      setBowlerArmRotation(0);
       return;
     }
 
-    // Bowling animation: ball travels from bowler to batsman
+    // Unified animation with two phases:
+    // Phase 1 (0-30 frames): Bowling animation - ball travels from bowler to batsman
+    // Phase 2 (31-50 frames): Batting animation - bat swings and makes contact
     let frame = 0;
     const animationInterval = setInterval(() => {
       frame++;
-      if (frame <= 20) {
-        // Ball moves from left to right (delivery)
-        setBallPosition({
-          x: 150 + (frame * 15), // Move right
-          y: 150 - (Math.sin((frame / 20) * Math.PI) * 50), // Arc motion
-        });
-      } else {
-        // Batting animation: bat swings
-        const swingFrame = frame - 20;
-        if (swingFrame <= 10) {
-          setBatRotation((swingFrame / 10) * 45); // Swing from 0 to 45 degrees
-        } else {
-          clearInterval(animationInterval);
-        }
+      
+      // PHASE 1: BOWLING ANIMATION (Frames 0-30)
+      // Bowler arm swing and ball delivery
+      if (frame <= 30) {
+        // Bowler arm swing: continuous rotation for realistic bowling motion
+        const armProgress = (frame % 20) / 20;
+        const armRotation = Math.sin(armProgress * Math.PI) * 90; // 0 to 90 degrees
+        setBowlerArmRotation(armRotation);
+        
+        // Ball travels from bowler position to batsman
+        // Bowler position: x=45, y=150
+        // Batsman position: x=200, y=205
+        const deliveryProgress = frame / 30; // 0 to 1 over 30 frames
+        
+        const startX = 45;
+        const startY = 150;
+        const endX = 200;
+        const endY = 205;
+        
+        // Calculate horizontal position
+        const x = startX + (endX - startX) * deliveryProgress;
+        
+        // Ball trajectory with pronounced arc for visibility
+        // Rises up in the middle of flight for realistic bowling
+        const arcHeight = Math.sin(deliveryProgress * Math.PI) * 80;
+        const y = startY + (endY - startY) * deliveryProgress - arcHeight;
+        
+        setBallPosition({ x, y });
       }
-    }, 50);
+      
+      // PHASE 2: BATTING ANIMATION (Frames 31-50)
+      // Batting animation: bat swings when ball arrives at batsman
+      if (frame >= 31 && frame <= 50) {
+        const swingProgress = (frame - 30) / 20; // 0 to 1 for smooth swing
+        
+        // Bat rotates from 0 to 45 degrees for natural batting motion
+        setBatRotation(swingProgress * 45);
+        
+        // Ball stays at batsman position during batting
+        setBallPosition({ x: 200, y: 205 });
+        
+        // Bowler arm returns to rest position
+        setBowlerArmRotation(0);
+      }
+      
+      // Animation complete - reset everything
+      if (frame > 50) {
+        clearInterval(animationInterval);
+        // Reset positions for next shot
+        setBallPosition({ x: 45, y: 150 });
+        setBatRotation(0);
+        setBowlerArmRotation(0);
+      }
+    }, 40); // 40ms interval = ~50 frames total = 2000ms animation
 
     return () => clearInterval(animationInterval);
   }, [isAnimating]);
@@ -87,6 +129,61 @@ export default function CricketGround({ isAnimating, lastResult, battingStyle })
     ctx.fillStyle = grassGradient;
     ctx.fillRect(0, height * 0.4, width, height * 0.6);
 
+    // ===== BOWLER FIGURE (at bowling end) =====
+    const bowlerX = 45;
+    const bowlerY = 200;
+
+    // Bowler body
+    ctx.fillStyle = '#228B22';
+    ctx.fillRect(bowlerX - 6, bowlerY - 8, 12, 18);
+
+    // Bowler head
+    ctx.fillStyle = '#FACF9A';
+    ctx.beginPath();
+    ctx.arc(bowlerX, bowlerY - 10, 5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Bowler legs
+    ctx.strokeStyle = '#FACF9A';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(bowlerX, bowlerY + 10);
+    ctx.lineTo(bowlerX - 4, bowlerY + 22);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(bowlerX, bowlerY + 10);
+    ctx.lineTo(bowlerX + 4, bowlerY + 22);
+    ctx.stroke();
+
+    // Bowler bowling arm (animated)
+    ctx.save();
+    ctx.translate(bowlerX, bowlerY - 5);
+    ctx.rotate((bowlerArmRotation * Math.PI) / 180);
+    
+    // Bowling arm
+    ctx.strokeStyle = '#FACF9A';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(25, 0);
+    ctx.stroke();
+
+    // Hand at end of arm
+    ctx.fillStyle = '#FACF9A';
+    ctx.beginPath();
+    ctx.arc(25, 0, 3, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.restore();
+
+    // Bowler non-bowling arm
+    ctx.strokeStyle = '#FACF9A';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(bowlerX - 6, bowlerY - 5);
+    ctx.lineTo(bowlerX - 15, bowlerY - 8);
+    ctx.stroke();
+
     // ===== CRICKET PITCH =====
     // Pitch area with gradient
     ctx.fillStyle = '#C4A460';
@@ -97,21 +194,7 @@ export default function CricketGround({ isAnimating, lastResult, battingStyle })
     ctx.fillRect(120, 180, 260, 30);
 
     // ===== BOUNDARY LINE =====
-    ctx.strokeStyle = '#FFFFFF';
-    ctx.lineWidth = 3;
-    ctx.setLineDash([]);
-    ctx.beginPath();
-    ctx.ellipse(250, 250, 180, 120, 0, 0, Math.PI * 2);
-    ctx.stroke();
-
-    // Inner circle
-    ctx.strokeStyle = '#FFFFFF';
-    ctx.lineWidth = 2;
-    ctx.setLineDash([5, 5]);
-    ctx.beginPath();
-    ctx.ellipse(250, 250, 100, 60, 0, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.setLineDash([]);
+    // Removed boundary circles for cleaner view
 
     // ===== POPPING CREASE & CREASES =====
     ctx.strokeStyle = '#FFFFFF';
@@ -265,37 +348,7 @@ export default function CricketGround({ isAnimating, lastResult, battingStyle })
       ctx.arc(fielder.x, fielder.y - 10, 4, 0, Math.PI * 2);
       ctx.fill();
     });
-
-    // ===== RESULT DISPLAY OVERLAY =====
-    if (lastResult) {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
-      ctx.fillRect(0, 0, width, height);
-
-      // Result box background
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
-      ctx.fillRect(width / 2 - 120, height / 2 - 60, 240, 120);
-      ctx.strokeStyle = '#667eea';
-      ctx.lineWidth = 3;
-      ctx.strokeRect(width / 2 - 120, height / 2 - 60, 240, 120);
-
-      ctx.fillStyle = '#333333';
-      ctx.font = 'bold 36px Arial';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-
-      const resultTexts = {
-        wicket: '💔 WICKET!',
-        zero: '⭕ DOT BALL',
-        one: '1️⃣ ONE RUN',
-        two: '2️⃣ TWO RUNS',
-        three: '3️⃣ THREE RUNS',
-        four: '4️⃣ FOUR RUNS',
-        six: '6️⃣ SIX RUNS',
-      };
-
-      ctx.fillText(resultTexts[lastResult] || 'PLAYING', width / 2, height / 2);
-    }
-  }, [ballPosition, batRotation, lastResult]);
+  }, [ballPosition, batRotation, bowlerArmRotation, lastResult]);
 
   return (
     <div className="cricket-ground-container">
@@ -306,10 +359,6 @@ export default function CricketGround({ isAnimating, lastResult, battingStyle })
           height={450}
           className="ground-canvas"
         />
-      </div>
-      <div className="ground-label">
-        <span>🏏 Cricket Ground 🏏</span>
-        {isAnimating && <span className="animation-indicator">Playing...</span>}
       </div>
     </div>
   );
