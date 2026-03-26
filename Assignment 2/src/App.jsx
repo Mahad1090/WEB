@@ -144,9 +144,8 @@ export default function App() {
     );
     setCommentary(commentaryLines[result.outcome][commentaryIndex]);
 
-    // Animation duration: 2000ms (50 frames * 40ms)
-    // Phase 1: Bowling animation (30 frames = 1200ms)
-    // Phase 2: Batting animation (20 frames = 800ms)
+    // Animation timing:
+    // Phase 1: Bowling (1200ms) + Phase 2: Batting (800ms) + Phase 3: Shot (2800ms) = 4800ms total
     setTimeout(() => {
       if (result.outcome === 'wicket') {
         setWickets((w) => w + 1);
@@ -157,7 +156,7 @@ export default function App() {
       setBalls((b) => b + 1);
       setLastResult(result.outcome);
       setIsAnimating(false);
-    }, 2000);
+    }, 4800);
   };
 
   /**

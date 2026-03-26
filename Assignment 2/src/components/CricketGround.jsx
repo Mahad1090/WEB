@@ -16,7 +16,7 @@ export default function CricketGround({ isAnimating, lastResult, battingStyle })
   const [batRotation, setBatRotation] = useState(0);
   const [bowlerArmRotation, setBowlerArmRotation] = useState(0);
 
-  // Animation frame for bowling and batting
+  // Animation frame for bowling, batting, and shot
   useEffect(() => {
     if (!isAnimating) {
       setBallPosition({ x: 45, y: 150 });
@@ -25,9 +25,10 @@ export default function CricketGround({ isAnimating, lastResult, battingStyle })
       return;
     }
 
-    // Unified animation with two phases:
+    // Three-phase animation:
     // Phase 1 (0-30 frames): Bowling animation - ball travels from bowler to batsman
     // Phase 2 (31-50 frames): Batting animation - bat swings and makes contact
+    // Phase 3 (51-120 frames): Shot animation - ball travels based on outcome
     let frame = 0;
     const animationInterval = setInterval(() => {
       frame++;
@@ -75,19 +76,76 @@ export default function CricketGround({ isAnimating, lastResult, battingStyle })
         // Bowler arm returns to rest position
         setBowlerArmRotation(0);
       }
+
+      // PHASE 3: SHOT ANIMATION (Frames 51-120)
+      // Ball travels based on the outcome
+      if (frame >= 51 && frame <= 120) {
+        const shotProgress = (frame - 50) / 70; // 0 to 1 over 70 frames
+        
+        let endX = 200;
+        let endY = 205;
+        let arcHeight = 0;
+        
+        // Determine trajectory based on outcome
+        if (lastResult === 'six') {
+          // SIX: Ball goes high and far out of ground (top right)
+          endX = 550; // Far right, out of bounds
+          endY = -50; // High in the sky
+          arcHeight = Math.sin(shotProgress * Math.PI) * 150; // High arc
+        } else if (lastResult === 'four') {
+          // FOUR: Ball travels along ground toward boundary
+          endX = 520; // Right boundary
+          endY = 280; // Ground level
+          arcHeight = Math.sin(shotProgress * Math.PI) * 40; // Slight bounce
+        } else if (lastResult === 'three') {
+          // THREE: Ball goes towards mid-field
+          endX = 380;
+          endY = 150;
+          arcHeight = Math.sin(shotProgress * Math.PI) * 50;
+        } else if (lastResult === 'two') {
+          // TWO: Ball goes towards mid-field
+          endX = 350;
+          endY = 120;
+          arcHeight = Math.sin(shotProgress * Math.PI) * 40;
+        } else if (lastResult === 'one') {
+          // ONE: Ball goes towards short-field
+          endX = 280;
+          endY = 100;
+          arcHeight = Math.sin(shotProgress * Math.PI) * 35;
+        } else if (lastResult === 'zero' || lastResult === 'dot') {
+          // DOT BALL: Ball stays near batsman or goes slow
+          endX = 240;
+          endY = 180;
+          arcHeight = Math.sin(shotProgress * Math.PI) * 20;
+        } else if (lastResult === 'wicket') {
+          // WICKET: Ball hits stumps or goes up in air
+          endX = 370; // Towards stumps
+          endY = 180;
+          arcHeight = Math.sin(shotProgress * Math.PI) * 60;
+        }
+        
+        // Calculate ball position along the trajectory
+        const startX = 200;
+        const startY = 205;
+        
+        const x = startX + (endX - startX) * shotProgress;
+        const y = startY + (endY - startY) * shotProgress - arcHeight;
+        
+        setBallPosition({ x, y });
+      }
       
       // Animation complete - reset everything
-      if (frame > 50) {
+      if (frame > 120) {
         clearInterval(animationInterval);
         // Reset positions for next shot
         setBallPosition({ x: 45, y: 150 });
         setBatRotation(0);
         setBowlerArmRotation(0);
       }
-    }, 40); // 40ms interval = ~50 frames total = 2000ms animation
+    }, 40); // 40ms interval = ~120 frames total = 4800ms animation
 
     return () => clearInterval(animationInterval);
-  }, [isAnimating]);
+  }, [isAnimating, lastResult]);
 
   // Canvas drawing
   useEffect(() => {
