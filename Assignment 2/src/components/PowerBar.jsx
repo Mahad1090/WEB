@@ -61,38 +61,54 @@ export default function PowerBar({
       <h3>⚡ Probability-Based Power Bar</h3>
 
       {/* Power Bar */}
-      <div className="power-bar">
-        {/* Segments */}
-        <div className="segments">
-          {segments.map((segment) => (
-            <div
-              key={segment.key}
-              className="segment"
-              style={{
-                width: `${segment.width}%`,
-                backgroundColor: segment.color,
-              }}
-              title={`${segment.label}: ${(segment.width).toFixed(1)}%`}
-            >
-              <span className="segment-label">{segment.emoji}</span>
-            </div>
-          ))}
+      <div className="power-bar-wrapper">
+        <div className="power-bar">
+          {/* Segments */}
+          <div className="segments">
+            {segments.map((segment) => (
+              <div
+                key={segment.key}
+                className="segment"
+                style={{
+                  width: `${segment.width}%`,
+                  backgroundColor: segment.color,
+                }}
+                title={`${segment.label}: ${(segment.width).toFixed(1)}%`}
+              >
+                <span className="segment-label">{segment.emoji}</span>
+                <span className="segment-percent">{(segment.width).toFixed(1)}%</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Moving Slider */}
+          <div
+            className="slider"
+            style={{
+              left: `calc(${sliderPosition * 100}% - 15px)`,
+            }}
+          >
+            <div className="slider-pointer"></div>
+            <div className="slider-triangle"></div>
+          </div>
         </div>
 
-        {/* Moving Slider */}
-        <div
-          className="slider"
-          style={{
-            left: `calc(${sliderPosition * 100}% - 15px)`,
-          }}
-        >
-          <div className="slider-pointer"></div>
+        {/* Numerical scale */}
+        <div className="scale-numbers">
+          <span className="scale-mark">0</span>
+          <span className="scale-mark">0.40</span>
+          <span className="scale-mark">0.50</span>
+          <span className="scale-mark">0.60</span>
+          <span className="scale-mark">0.70</span>
+          <span className="scale-mark">0.75</span>
+          <span className="scale-mark">0.85</span>
+          <span className="scale-mark">1.00</span>
         </div>
 
         {/* Current Position Indicator */}
         <div className="position-indicator">
           <span className="position-text">
-            Position: {(sliderPosition * 100).toFixed(1)}%
+            Slider Position: {(sliderPosition * 100).toFixed(1)}%
           </span>
         </div>
       </div>
@@ -108,7 +124,7 @@ export default function PowerBar({
                 style={{ backgroundColor: segment.color }}
               ></div>
               <span className="legend-label">
-                {segment.emoji} {segment.label} ({(segment.width).toFixed(1)}%)
+                {segment.emoji} {segment.label}
               </span>
             </div>
           ))}
@@ -118,8 +134,8 @@ export default function PowerBar({
       {/* Explanation */}
       <div className="bar-explanation">
         <p>
-          <strong>How it works:</strong> The slider continuously moves across the power bar.
-          Click "PLAY SHOT" to stop the slider and score based on its position!
+          <strong>How it works:</strong> The slider continuously moves across the power bar from left to right. 
+          Click "PLAY SHOT" to score based on which colored segment the slider stops in!
         </p>
       </div>
     </div>
