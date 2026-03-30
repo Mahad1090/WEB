@@ -1,0 +1,22 @@
+.dashboard-nav {
+	display: flex;
+	gap: 1rem;
+	margin-bottom: 1rem;
+}
+
+.dashboard-nav a {
+	color: #0f4c81;
+	text-decoration: none;
+	font-weight: 600;
+}
+
+.dashboard-nav a.active-link {
+	text-decoration: underline;
+}
+
+.dashboard-content {
+	padding: 1rem;
+	border: 1px solid #d1d5db;
+	border-radius: 0.5rem;
+	background: #f9fafb;
+}
