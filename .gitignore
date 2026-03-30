@@ -77,3 +77,14 @@ ReactSetup/
 # Misc
 .cache
 .hydrogen/
+
+# Angular
+.angular/
+out-tsc/
+bazel-out/
+connect.lock
+testem.log
+typings/
+.sass-cache/
+.history/
+__screenshots__/
