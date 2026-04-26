@@ -1,4 +1,7 @@
-# Property Dealer CRM System
+# Property Dealer CRM System - Assignment 3
+
+**Course:** CS-4032 Web Programming  
+**Assignment:** Assignment 3 - Full-Stack CRM System
 
 A comprehensive full-stack Customer Relationship Management (CRM) system built for property dealers in Pakistan. This system helps real estate agents efficiently manage leads from multiple sources including Facebook Ads, walk-in clients, and website inquiries.
 
