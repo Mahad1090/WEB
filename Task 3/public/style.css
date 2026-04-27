@@ -1,0 +1,114 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f4f7fb, #eaf2ff);
+  color: #1f2937;
+}
+
+.container {
+  max-width: 720px;
+  margin: 40px auto;
+  padding: 0 16px 24px;
+}
+
+.auth-layout {
+  max-width: 460px;
+}
+
+h1 {
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  margin-top: 0;
+  color: #4b5563;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #dbe4f0;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
+}
+
+h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+
+.auth-card h1 {
+  margin-top: 0;
+  margin-bottom: 4px;
+}
+
+form {
+  display: grid;
+  gap: 8px;
+}
+
+label {
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+input {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 0.95rem;
+}
+
+button {
+  margin-top: 4px;
+  border: 0;
+  border-radius: 8px;
+  background: #1d4ed8;
+  color: #fff;
+  padding: 10px 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1e40af;
+}
+
+.button-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.actions .button-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.hint {
+  margin-bottom: 0;
+  font-size: 0.92rem;
+  color: #374151;
+}
+
+.status {
+  margin: 12px 0 0;
+  font-weight: 600;
+  color: #065f46;
+}
+
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  background: #0f172a;
+  color: #c7f9cc;
+  border-radius: 8px;
+  padding: 12px;
+  min-height: 70px;
+}

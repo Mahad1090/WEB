@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - Task 3</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main class="container auth-layout">
+      <section class="card auth-card">
+        <h1>Sign Up</h1>
+        <p class="subtitle">Create your account and then login.</p>
+
+        <form id="signupForm">
+          <label for="username">Username</label>
+          <input id="username" type="text" required />
+
+          <label for="password">Password</label>
+          <input id="password" type="password" required />
+
+          <button type="submit">Create Account</button>
+        </form>
+
+        <p class="hint">Already have an account? <a href="/login">Go to login</a></p>
+        <p class="status" id="status">Ready</p>
+      </section>
+    </main>
+
+    <script src="/signup.js"></script>
+  </body>
+</html>

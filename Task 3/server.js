@@ -3,6 +3,7 @@
 
 const express = require("express");
 const session = require("express-session");
+const path = require("path");
 
 const connectDB = require("./config/db");
 const User = require("./models/User");
@@ -21,6 +22,9 @@ app.use(express.json());
 // Parse URL-encoded data (for HTML form submissions)
 app.use(express.urlencoded({ extended: true }));
 
+// Serve static frontend files from /public (disable default index.html on /)
+app.use(express.static(path.join(__dirname, "public"), { index: false }));
+
 // Session setup - keeps users logged in between requests
 app.use(
   session({
@@ -35,15 +39,35 @@ app.use(
 // ROUTES
 // =======================================
 
-// --- Home Route ---
+// --- Page Routes ---
 app.get("/", (req, res) => {
-  res.send("Login System is running! Use /register, /login, /dashboard, /logout");
+  res.redirect("/login");
+});
+
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "login.html"));
+});
+
+app.get("/signup", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "signup.html"));
+});
+
+app.get("/dashboard", (req, res) => {
+  if (req.session && req.session.user) {
+    return res.sendFile(path.join(__dirname, "public", "dashboard.html"));
+  }
+  res.redirect("/login");
+});
+
+// --- Health Route ---
+app.get("/health", (req, res) => {
+  res.send("Login System API is running");
 });
 
 // --- Register Route ---
-// POST /register
+// POST /api/register
 // Creates a new user account
-app.post("/register", async (req, res) => {
+app.post("/api/register", async (req, res) => {
   const { username, password } = req.body;
 
   // Basic validation
@@ -62,9 +86,9 @@ app.post("/register", async (req, res) => {
 });
 
 // --- Login Route ---
-// POST /login
+// POST /api/login
 // Checks credentials and creates a session
-app.post("/login", async (req, res) => {
+app.post("/api/login", async (req, res) => {
   const { username, password } = req.body;
 
   // Basic validation
@@ -87,17 +111,16 @@ app.post("/login", async (req, res) => {
 });
 
 // --- Dashboard Route (Protected) ---
-// GET /dashboard
+// GET /api/dashboard
 // Only accessible to logged-in users
-app.get("/dashboard", isLoggedIn, (req, res) => {
-  // req.session.user holds the logged-in username
-  res.send(`Welcome ${req.session.user}`);
+app.get("/api/dashboard", isLoggedIn, (req, res) => {
+  res.json({ message: `Welcome ${req.session.user}`, username: req.session.user });
 });
 
 // --- Logout Route ---
-// GET /logout
+// GET /api/logout
 // Destroys the session and logs the user out
-app.get("/logout", (req, res) => {
+app.get("/api/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       return res.status(500).send("Could not log out");

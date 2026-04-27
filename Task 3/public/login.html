@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Task 3</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main class="container auth-layout">
+      <section class="card auth-card">
+        <h1>Login</h1>
+        <p class="subtitle">Sign in to access your dashboard.</p>
+
+        <form id="loginForm">
+          <label for="username">Username</label>
+          <input id="username" type="text" required />
+
+          <label for="password">Password</label>
+          <input id="password" type="password" required />
+
+          <button type="submit">Login</button>
+        </form>
+
+        <p class="hint">No account yet? <a href="/signup">Create one</a></p>
+        <p class="status" id="status">Ready</p>
+      </section>
+    </main>
+
+    <script src="/login.js"></script>
+  </body>
+</html>

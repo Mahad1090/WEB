@@ -36,7 +36,7 @@ class User {
     }
 
     // Create and save the new user
-    // NOTE: Password is stored as plain text (kept simple for beginners)
+
     const newUser = new UserModel({
       username: this.username,
       password: this.password,

@@ -1,10 +1,8 @@
-// config/db.js
-// This file connects our app to MongoDB
+
 
 const mongoose = require("mongoose");
 
-// Connect to MongoDB
-// The database name is: studentDB
+
 const connectDB = async () => {
   try {
     await mongoose.connect("mongodb://localhost:27017/studentDB");
