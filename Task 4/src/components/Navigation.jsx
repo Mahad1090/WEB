@@ -15,6 +15,9 @@ export default function Navigation() {
           <li className="nav-item">
             <Link to="/contact" className="nav-link">Contact</Link>
           </li>
+          <li className="nav-item">
+            <Link to="/mahad" className="nav-link">Mahad</Link>
+          </li>
         </ul>
       </div>
     </nav>
